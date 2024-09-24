@@ -5,13 +5,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        run: echo Hello,world!
-      - name: cache
-        run: echo Hello,world!
-      - name: install
-        run: echo Hello,world!
-      - name: build
-        run: echo Hello,world!
-      - name: publish
-        run: echo Hello,world!
+        - name: Setup Node.js environment
+          uses: actions/setup-node@v4.0.4
+          with:
+            # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+            node-version: 20.x
+            # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
+            cache: pnpm
+            # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
+            cache-dependency-path: pnpm-lock.yaml
+        - name: Checkout
+          uses: actions/checkout@v4.1.7
+        - name: install
+          run: pnpm install
+        - name: build
+          run: pnpm build
+        - name: display dist files
+          run: ls -la&& ls dist
+         
+          
